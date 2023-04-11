@@ -16,10 +16,7 @@ int main() {
         }
     }
 
-// Mettre le point de départ en haut à gauche de la grille
-    grid[0][0] = 'x';
-
-// Afficher la grille
+    // Afficher la grille
     for (i = 0; i < 4; i++) {
         for (j = 0; j < 4; j++) {
             if (grid[i][j] < 10) {  // Ajouter un espace pour les nombres à un seul chiffre
@@ -27,9 +24,7 @@ int main() {
             }
 
             // Vérifier si le nombre est déjà trouvé et le colorier en bleu
-            if (grid[i][j] == 'x') {
-                printf("\033[1;34mx\033[0m ");
-            } else if (grid[i][j] < min_num) {
+            if (grid[i][j] < min_num) {
                 printf("\033[1;34m%d\033[0m ", grid[i][j]);
             } else {
                 printf("%d ", grid[i][j]);
@@ -38,7 +33,17 @@ int main() {
         printf("\n");
     }
 
-// Boucle principale du jeu
+    // Trouver le plus petit nombre dans la grille
+    min_num = grid[0][0];
+    for (i = 0; i < 4; i++) {
+        for (j = 0; j < 4; j++) {
+            if (grid[i][j] < min_num) {
+                min_num = grid[i][j];
+            }
+        }
+    }
+
+    // Boucle principale du jeu
     while (1) {
         // Demander à l'utilisateur de saisir une direction pour sélectionner le nombre suivant
         printf("Choisissez une direction (Z pour monter, S pour descendre, Q pour aller à gauche, D pour aller à droite) : ");
@@ -82,16 +87,14 @@ int main() {
             printf("Bravo, vous avez trouve le nombre suivant !\n");
             min_num++;
 
-            // Remplacer le nombre trouvé par 'x'
-            grid[i][j] = 'x';
 
             // Colorier le nombre trouvé en bleu
-            printf("\033[1;34mx\033[0m ");
+            grid[i][j] = -min_num;
 
             // Afficher la grille mise à jour avec le nombre trouvé colorié en bleu
             for (i = 0; i < 4; i++) {
                 for (j = 0; j < 4; j++) {
-                    if (grid[i][j] == 'x') {
+                    if (grid[i][j] < 0) {
                         printf("\033[34m%d\033[0m ", -grid[i][j]);
                     } else {
                         printf("%d ", grid[i][j]);
@@ -103,3 +106,4 @@ int main() {
         }
 
         return 0;
+
